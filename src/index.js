@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <MessengerCustomerChat pageId="100087297233024" appId="480342590679833" />
+      <MessengerCustomerChat pageId="100087297233024" appId="539160330876870" />
       <App />
     </BrowserRouter>
   </React.StrictMode>
