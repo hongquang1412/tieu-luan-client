@@ -4,10 +4,12 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import MessengerCustomerChat from "react-messenger-customer-chat";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+      <MessengerCustomerChat pageId="100087297233024" appId="480342590679833" />
       <App />
     </BrowserRouter>
   </React.StrictMode>
