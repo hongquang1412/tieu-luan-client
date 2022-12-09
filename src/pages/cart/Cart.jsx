@@ -34,7 +34,7 @@ function Cart() {
   let total = 0;
   if (carts) {
     carts.map((cart) => {
-      if (cart.productPriceNew !== null) {
+      if (cart.productPriceNew !== 0) {
         total += cart.productPriceNew * cart.productQuantity;
       } else {
         total += cart.productPrice * cart.productQuantity;
@@ -61,7 +61,7 @@ function Cart() {
           sp_hoten: cart.productName,
           ctdh_soluong: cart.productQuantity,
           ctdh_dongia:
-            cart.productPriceNew !== null
+            cart.productPriceNew !== 0
               ? cart.productPriceNew
               : cart.productPrice,
           ctdh_mausac: cart.productColor[0].color,
@@ -145,7 +145,7 @@ function Cart() {
                         setAddressSelect(e.target.value);
                       }}
                     >
-                      {address.map((add, index) => (
+                      {address?.map((add, index) => (
                         <option key={index} value={add.dc_diachi}>
                           {add.dc_diachi}
                         </option>
