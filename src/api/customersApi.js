@@ -27,6 +27,14 @@ export const patch = async (id, data, headers) => {
   }
 };
 
+export const PasswordRetrieval = async (id, data, headers) => {
+  try {
+    await request.patch(`customers/password/${id}`, data, headers);
+  } catch (error) {
+    //todo write log
+  }
+};
+
 export const _delete = async (id) => {
   try {
     await request._delete( `customers/${id}`);

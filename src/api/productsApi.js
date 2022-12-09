@@ -9,6 +9,15 @@ export const get = async (id = "") => {
   }
 };
 
+export const getByName = async (name = "") => {
+  try {
+    const res = await request.get(`products?sp_ten=${name}`);
+    return res;
+  } catch (error) {
+    //todo write log
+  }
+};
+
 export const search = async (p) => {
   try {
     const res = await request.get(`products/search?p=${p}`);

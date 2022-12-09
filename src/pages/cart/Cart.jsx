@@ -10,6 +10,7 @@ function Cart() {
   const navigate = useNavigate();
   const [address, setAddress] = useState([]);
   const [addressSelect, setAddressSelect] = useState("");
+  const [addressInput, setAddressInput] = useState("");
   const [carts, setCarts] = useState([]);
   const [render, setRender] = useState(false);
   const notify = () => toast.success("Successfully created!");
@@ -33,9 +34,9 @@ function Cart() {
   let total = 0;
   if (carts) {
     carts.map((cart) => {
-      if(cart.productPriceNew!==null){
+      if (cart.productPriceNew !== null) {
         total += cart.productPriceNew * cart.productQuantity;
-      }else{
+      } else {
         total += cart.productPrice * cart.productQuantity;
       }
       return total;
@@ -44,41 +45,59 @@ function Cart() {
 
   const handleCheckOut = async () => {
     let detailOrders = [];
-    if (address.length !== 0) {
-      carts.forEach((cart) => {
-        detailOrders = [
-          ...detailOrders,
-          {
-            sp_id: cart.productId,
-            sp_hoten: cart.productName,
-            ctdh_soluong: cart.productQuantity,
-            ctdh_dongia: cart.productPriceNew !== null ? cart.productPriceNew: cart.productPrice,
-            ctdh_mausac: cart.productColor[0].color,
-            ctdh_dungluong: cart.productCapacity[0].capacity,
-            k_soluong: cart.quantityAvailable,
-          },
-        ];
-      });
-      const data = {
-        kh_id,
-        kh_hoten,
-        dh_diachigh: addressSelect,
-        dh_thanhtien: total,
-        detailOrders: JSON.stringify(detailOrders),
-      };
-      console.log(data);
-      await ordersApi.post(data, {
+    let addressne = "";
+    // check dia chi
+    if (addressInput !== "") {
+      addressne = addressInput;
+    } else {
+      addressne = addressSelect;
+    }
+
+    carts.forEach((cart) => {
+      detailOrders = [
+        ...detailOrders,
+        {
+          sp_id: cart.productId,
+          sp_hoten: cart.productName,
+          ctdh_soluong: cart.productQuantity,
+          ctdh_dongia:
+            cart.productPriceNew !== null
+              ? cart.productPriceNew
+              : cart.productPrice,
+          ctdh_mausac: cart.productColor[0].color,
+          ctdh_dungluong: cart.productCapacity[0].capacity,
+          sp_soluong: cart.quantityAvailable,
+        },
+      ];
+    });
+
+    const data = {
+      kh_id,
+      kh_hoten,
+      dh_diachigh: addressne,
+      dh_thanhtien: total,
+      detailOrders: JSON.stringify(detailOrders),
+    };
+    console.log(data);
+    await addressApi.post(
+      { kh_id, dc_diachi: addressne },
+      {
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      localStorage.removeItem("carts");
-      alert("Đặt hàng thành công");
-      navigate("/");
-    } else {
-      alert("Vui lòng nhập địa chỉ");
-    }
+      }
+    );
+
+    await ordersApi.post(data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    localStorage.removeItem("carts");
+    alert("Đặt hàng thành công");
+    navigate("/");
   };
+
   return (
     <Container className="cart">
       <Row className="mt-4 justify-content-between">
@@ -97,7 +116,8 @@ function Cart() {
           {carts.map((cart, index) => (
             <CardProductCart
               key={index}
-              id={index}
+              idItem={index}
+              id={cart.productId}
               img={cart.productImg}
               name={cart.productName}
               discount={cart.productPriceNew ? cart.productPriceNew : 0}
@@ -105,31 +125,47 @@ function Cart() {
               color={cart.productColor[0].color}
               capacity={cart.productCapacity[0].capacity}
               quantity={cart.productQuantity}
+              carts={carts}
               setRender={setRender}
             />
           ))}
-
           <div className="cart__content-address">
+            {address.length !== 0 && (
+              <Row>
+                <Col className="col-8">
+                  <FormGroup>
+                    <Label for="exampleSelect">Chọn địa chỉ giao hàng:</Label>
+                    <br />
+                    <select
+                      className="p-1"
+                      id="exampleSelect"
+                      name="select"
+                      type="select"
+                      onChange={(e) => {
+                        setAddressSelect(e.target.value);
+                      }}
+                    >
+                      {address.map((add, index) => (
+                        <option key={index} value={add.dc_diachi}>
+                          {add.dc_diachi}
+                        </option>
+                      ))}
+                    </select>
+                  </FormGroup>
+                </Col>
+              </Row>
+            )}
+
             <Row>
-              <Col className="col-8">
+              <Col>
                 <FormGroup>
-                  <Label for="exampleSelect">Chọn địa chỉ giao hàng:</Label>
-                  <br />
-                  <select
-                    className="p-1"
-                    id="exampleSelect"
-                    name="select"
-                    type="select"
+                  <Label for="exampleSelect">Nhập địa chỉ giao hàng:</Label>
+                  <Input
+                    type="text"
                     onChange={(e) => {
-                      setAddressSelect(e.target.value);
+                      setAddressInput(e.target.value);
                     }}
-                  >
-                    {address.map((add, index) => (
-                      <option key={index} value={add.dc_diachi}>
-                        {add.dc_diachi}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </FormGroup>
               </Col>
             </Row>

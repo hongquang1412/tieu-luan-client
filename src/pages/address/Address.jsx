@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Col, Table, Button } from "reactstrap";
 import { NavLink } from "react-router-dom";
-import { BiEdit } from "react-icons/bi";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import * as addressApi from "../../api/addressApi";
 
 function Address() {
@@ -41,7 +39,7 @@ function Address() {
           <tr>
             <th>id</th>
             <th>Địa chỉ</th>
-            <th>Thao tác</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -50,19 +48,18 @@ function Address() {
               <td>{add.dc_id}</td>
               <td>{add.dc_diachi}</td>
               <td>
-                <NavLink
-                  to={`/address/update/${add.dc_id}`}
-                  className="border-0 bg-transparent text-black"
-                >
-                  <BiEdit className="fs-4" />
+                <NavLink to={`/address/update/${add.dc_id}`}>
+                  <Button color="info" className="text-white">
+                    Cập nhật
+                  </Button>
                 </NavLink>
                 &nbsp; &nbsp;
-                <button
-                  className="border-0 bg-transparent"
+                <Button
+                  color="danger"
                   onClick={() => handleDeleteAddress(add.dc_id)}
                 >
-                  <RiDeleteBin6Line className="fs-4" />
-                </button>
+                  Xóa
+                </Button>
               </td>
             </tr>
           ))}

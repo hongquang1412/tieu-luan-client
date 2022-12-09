@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import FacebookLogin from "react-facebook-login";
 import GoogleLogin from "react-google-login";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { gapi } from "gapi-script";
 import * as customersApi from "../../api/customersApi";
 var bcrypt = require("bcryptjs");
@@ -223,6 +223,7 @@ function Login() {
                 }}
               />
             </FormGroup>
+            <NavLink to="/passwordRetrieval">Quên mật khẩu</NavLink>
             <div className="d-flex justify-content-center">
               <Button className="bg-primary px-4 py-2">Đăng nhập</Button>
             </div>

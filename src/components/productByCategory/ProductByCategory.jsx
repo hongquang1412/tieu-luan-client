@@ -20,6 +20,9 @@ function ProductByCategory({ categoryName }) {
     };
     fetchApi();
   }, [categoryName]);
+
+  console.log(products);
+
   return (
     <div className="productByCategory">
       <p className="text-white text-center fs-2">{categoryName}</p>
@@ -31,8 +34,8 @@ function ProductByCategory({ categoryName }) {
                 <CardProduct
                   id={product.sp_id}
                   img={`http://127.0.0.1:8887/${product.hinhs[0]?.h_ten}`}
-                  title={`${product.sp_ten}  ${product.dungluongs[0].dl_dungluong}GB`}
-                  price={product.dungluongs[0]?.giatien.gt_gia}
+                  title={`${product.sp_ten}  ${product.giatiens[0].dungluong?.dl_dungluong}`}
+                  price={product.giatiens[0]?.gt_gia}
                   discount={product.giam?.g_phantram}
                 />
               ))}

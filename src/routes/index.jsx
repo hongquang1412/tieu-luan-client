@@ -11,15 +11,17 @@ import { default as OrderDetails } from "../pages/orders/Detail";
 import Address from "../pages/address/Address";
 import { default as AddAddress } from "../pages/address/Add";
 import { default as UpdateAddress } from "../pages/address/Update";
+import PasswordRetrieval from "../pages/login/PasswordRetrieval";
 const publicRoutes = [
   { path: "/", component: Home },
   { path: "/login", component: Login },
   { path: "/register", component: Register },
-  { path: "/category/:id", component: Category },
+  { path: "/passwordRetrieval", component: PasswordRetrieval },
+  { path: "/category/:name", component: Category },
   { path: "/detail/:id", component: Detail },
-  { path: "/cart", component: Cart },
 ];
 const privateRoutes = [
+  { path: "/cart", component: Cart },
   { path: "/info", component: Info, layout: LayoutSidebar },
   { path: "/orders", component: Orders, layout: LayoutSidebar },
   {

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Col, Table } from "reactstrap";
+import { Col, Table, Button } from "reactstrap";
 import { NavLink, useNavigate } from "react-router-dom";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { BiDetail } from "react-icons/bi";
+import moment from "moment";
 import * as ordersApi from "../../api/ordersApi";
 
 function Orders() {
@@ -41,8 +40,7 @@ function Orders() {
             <th>Thành tiền</th>
             <th>trạng thái đơn</th>
             <th>Thời gian giao hàng</th>
-            <th>Chi tiết</th>
-            <th>Hủy đơn</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -58,24 +56,22 @@ function Orders() {
               </td>
               <td>{order.dh_trangthai}</td>
               <td>
-                {order.dh_thoigiangh ? order.dh_thoigiangh : "Đang cập nhật"}
+                {order.dh_thoigiangh ? moment(order.dh_thoigiangh).format("DD-MM-YYYY") : "Đang cập nhật"}
               </td>
               <td>
-                <NavLink
-                  to={`/orders/detail/${order.dh_id}`}
-                  className="border-0 bg-transparent text-black"
-                >
-                  <BiDetail className="fs-4" />
+                <NavLink to={`/orders/detail/${order.dh_id}`}>
+                  <Button>Chi tiết</Button>
                 </NavLink>
-              </td>
-              <td>
+                &nbsp; &nbsp;
                 {order.dh_trangthai === "Chưa duyệt" ? (
-                  <RiDeleteBin6Line
-                    className="fs-4"
+                  <Button
+                    color="danger"
                     onClick={() => {
                       handleDeleteOrder(order.dh_id);
                     }}
-                  />
+                  >
+                    Huỷ đơn
+                  </Button>
                 ) : (
                   "Không thể hủy đơn"
                 )}

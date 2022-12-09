@@ -16,10 +16,28 @@ import * as productsApi from "../../api/productsApi";
 import Search from "../search/Search";
 function Header() {
   const navigate = useNavigate();
+
+  const navLinkClass = ({ isActive }) => {
+    return isActive ? "header-category-link-active" : "header-category-link";
+  };
+
   const account = JSON.parse(localStorage.getItem("infoCustomer"));
+  // const [carts, setCarts] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [length, setLength] = useState(0);
+
+  const carts = JSON.parse(localStorage.getItem("carts"));
+
+  useEffect(() => {
+    if (carts) {
+      setLength(carts?.length);
+    } else {
+      setLength(0);
+    }
+  }, [carts]);
+
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   useEffect(() => {
@@ -38,8 +56,6 @@ function Header() {
     fetchApi();
   }, []);
 
-  console.log(products);
-
   return (
     <div>
       <Container className="header py-3 bg-black" fluid>
@@ -49,15 +65,16 @@ function Header() {
               to="/"
               className="ms-4 fs-6 fw-semibold text-white text-decoration-none"
             >
-              <img src="/images/logo.png" alt="" width="200" />
+
+              <h2>Hồng Quang</h2>
             </NavLink>
           </Col>
 
           <Col className="d-flex">
             {categories.map((category) => (
               <NavLink
-                to={`/category/${category.l_id}`}
-                className="ms-4 fs-6 fw-semibold text-white text-decoration-none"
+                to={`/category/${category.l_ten}`}
+                className={navLinkClass}
               >
                 {category.l_ten}
               </NavLink>
@@ -65,15 +82,15 @@ function Header() {
           </Col>
 
           <Col className="col-4">
-              <Search/>
+            <Search />
           </Col>
 
           <Col className="d-flex justify-content-end align-items-center">
-            <NavLink to="/cart">
+            <NavLink to="/cart" className="position-relative">
               <RiShoppingCartLine className="ms-4 fs-2 text-white" />
+              <span className="cart__quality">{length}</span>
             </NavLink>
-            {localStorage.getItem("infoCustomer") === null ||
-            localStorage.getItem("infoCustomer") === undefined ? (
+            {account === null || account === undefined ? (
               <>
                 <NavLink
                   to="/register"

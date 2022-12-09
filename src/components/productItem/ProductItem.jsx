@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 function ProductItem({ data, setShowResult }) {
-  const price =  parseInt(data.dungluongs[2]?.giatien.gt_gia) * ((100 - parseInt(data.giam?.g_phantram)) / 100);
+  const price =  parseInt(data.giatiens[0].gt_gia) * ((100 - parseInt(data.giam?.g_phantram)) / 100);
   return (
     <NavLink
       to={`/detail/${data.sp_id}`}
@@ -13,7 +13,7 @@ function ProductItem({ data, setShowResult }) {
       <div className="wrapper-product">
         <img
           className="product"
-          src={`http://127.0.0.1:8887/${data.hinhs[0].h_ten}`}
+          src={`http://127.0.0.1:8887/${data.hinhs[0]?.h_ten}`}
           alt=""
         />
         <div className="info">

@@ -17,6 +17,7 @@ function Home() {
     };
     fetchApi();
   }, []);
+
   return (
     <>
       <Banner />
@@ -43,22 +44,13 @@ function Home() {
 
       <div className="content">
         <CardGroup className="justify-content-around mb-5">
-          <CardCategory
-            img="https://cdn.tgdd.vn/mwgcart/topzone/images/desktop/img-cateiphone.png"
-            title="iPhone"
-          />
-          <CardCategory
-            img="https://cdn.tgdd.vn/mwgcart/topzone/images/desktop/img-catemac.png"
-            title="Mac"
-          />
-          <CardCategory
-            img="https://cdn.tgdd.vn/mwgcart/topzone/images/desktop/img-cateipad.png?v=3"
-            title="iPad"
-          />
-          <CardCategory
-            img="https://cdn.tgdd.vn/mwgcart/topzone/images/desktop/img-catewatch.png?v=2"
-            title="Watch"
-          />
+          {categories.map((category, index) => (
+              <CardCategory
+                key={index}
+                img={`http://127.0.0.1:8887/${category.l_hinh}`}
+                title={category.l_ten}
+              />
+          ))}
         </CardGroup>
         {categories.map((category, index) => (
           <ProductByCategory categoryName={category.l_ten} />
@@ -66,6 +58,6 @@ function Home() {
       </div>
     </>
   );
-} 
+}
 
 export default Home;

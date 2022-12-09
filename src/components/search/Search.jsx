@@ -28,7 +28,7 @@ function Search() {
   useEffect(() => {
     setSearchValue(transcript);
   }, [transcript]);
-  console.log(listening);
+
   useEffect(() => {
     const fetchApi = async () => {
       if (!debounced.trim()) {
@@ -50,7 +50,7 @@ function Search() {
         <div className="search-result" tabIndex="-1" {...attrs}>
           <PopperWrapper>
             <small className="search-title">Sản phẩm gợi ý</small>
-            {searchResult?.map((result) => (
+            {searchResult.map((result) => (
               <ProductItem
                 key={result.sp_id}
                 data={result}
@@ -70,8 +70,6 @@ function Search() {
           value={searchValue}
           ref={inputRef}
           type="text"
-          name=""
-          id=""
           required
           placeholder="Tìm kiếm sản phẩm"
           onChange={(e) => {
@@ -88,9 +86,15 @@ function Search() {
           <button
             className="clear"
             onClick={() => {
-              setSearchValue("");
-              searchResult([]);
-              inputRef.current.focus();
+              if (transcript !== "") {
+                resetTranscript();
+                searchResult([]);
+                inputRef.current.focus();
+              } else {
+                setSearchValue("");
+                searchResult([]);
+                inputRef.current.focus();
+              }
             }}
           >
             <TiDelete />

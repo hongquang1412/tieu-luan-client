@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Input } from "reactstrap";
 import { TiDelete } from "react-icons/ti";
 import { GrFormAdd } from "react-icons/gr";
 import { RiSubtractFill } from "react-icons/ri";
+import * as productsApi from "../../api/productsApi";
 function CardProductCart({
+  idItem,
   id,
   img,
   name,
@@ -14,44 +16,61 @@ function CardProductCart({
   quantity,
   setRender,
 }) {
+  const [currentQuantity, setCurrentQuantity] = useState([]);
+  const [quantityValue, setQuantityValue] = useState(quantity);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const getProduct = await productsApi.get(id);
+      setCurrentQuantity(getProduct.products[0].sp_soluong);
+    };
+    fetchApi();
+  }, [id]);
+
   let carts = [];
   const getCarts = localStorage.getItem("carts");
   if (getCarts) {
     carts = JSON.parse(getCarts);
   }
 
-  const [quantityValue, setQuantityValue] = useState(quantity);
-
-  const handleAddQuantity = (id) => {
+  const handleAddQuantity = (idItem) => {
     const item = carts.find((cart, index) => {
-      return index === id;
+      return index === idItem;
     });
     if (item) {
-      item.productQuantity = quantityValue + 1;
-      localStorage.setItem("carts", JSON.stringify(carts));
-      setQuantityValue(item.productQuantity);
-      setRender(true);
+      if (quantityValue < currentQuantity) {
+        item.productQuantity = quantityValue + 1;
+        localStorage.setItem("carts", JSON.stringify(carts));
+        setQuantityValue(item.productQuantity);
+        setRender(true);
+      }
     }
   };
-  const handleSubQuantity = (id) => {
+  const handleSubQuantity = (idItem) => {
     const item = carts.find((cart, index) => {
-      return index === id;
+      return index === idItem;
     });
     if (item) {
-      item.productQuantity = quantityValue - 1;
-      localStorage.setItem("carts", JSON.stringify(carts));
-      setQuantityValue(item.productQuantity);
-      setRender(true);
+      if (quantityValue > 1) {
+        item.productQuantity = quantityValue - 1;
+        localStorage.setItem("carts", JSON.stringify(carts));
+        setQuantityValue(item.productQuantity);
+        setRender(true);
+      }
     }
   };
 
-  const handleDeleteItemCart = (id) => {
+  const handleDeleteItemCart = (idItem) => {
     const cartsNew = carts.filter((cart, index) => {
-      return index !== id;
+      return index !== idItem;
     });
     if (cartsNew) {
       localStorage.setItem("carts", JSON.stringify(cartsNew));
       setRender(true);
+    }
+
+    if (cartsNew.length === 0) {
+      localStorage.removeItem("carts");
     }
   };
   return (
@@ -63,8 +82,9 @@ function CardProductCart({
             <div className="ms-2">
               <h5 className="fs-5">{name}</h5>
               <p>
-                Màu: {color}, Dung lượng: {capacity}GB
+                Màu: {color}, Dung lượng: {capacity}
               </p>
+              <p>Số lượng hiện có: {currentQuantity}</p>
             </div>
           </div>
         </Col>
@@ -73,13 +93,13 @@ function CardProductCart({
             {discount !== 0 ? (
               <>
                 <strong>
-                  {discount.toLocaleString("VND", {
+                  {discount?.toLocaleString("VND", {
                     style: "currency",
                     currency: "VND",
                   })}
                 </strong>
                 <p className="text-decoration-line-through">
-                  {price.toLocaleString("VND", {
+                  {price?.toLocaleString("VND", {
                     style: "currency",
                     currency: "VND",
                   })}
@@ -87,7 +107,7 @@ function CardProductCart({
               </>
             ) : (
               <strong>
-                {price.toLocaleString("VND", {
+                {price?.toLocaleString("VND", {
                   style: "currency",
                   currency: "VND",
                 })}
@@ -99,7 +119,7 @@ function CardProductCart({
             <RiSubtractFill
               className="me-1 fs-3 p-1 bg-light border border-dark"
               onClick={() => {
-                handleSubQuantity(id);
+                handleSubQuantity(idItem);
               }}
             />
             <Input
@@ -108,13 +128,12 @@ function CardProductCart({
               type="text"
               className="w-50 text-center"
               value={quantityValue}
-              min={0}
               readOnly
             />
             <GrFormAdd
               className="ms-1 fs-3 p-1 bg-light border border-dark"
               onClick={() => {
-                handleAddQuantity(id);
+                handleAddQuantity(idItem);
               }}
             />
           </div>
@@ -123,7 +142,7 @@ function CardProductCart({
           <TiDelete
             className="fs-4"
             onClick={() => {
-              handleDeleteItemCart(id);
+              handleDeleteItemCart(idItem);
             }}
           />
         </Col>

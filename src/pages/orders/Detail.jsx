@@ -32,7 +32,7 @@ function Detail() {
             <tr key={index}>
               <td>{detail.sanpham?.sp_ten}</td>
               <td>{detail.ctdh_mausac}</td>
-              <td>{detail.ctdh_dungluong}GB</td>
+              <td>{detail.ctdh_dungluong}</td>
               <td>{detail.ctdh_soluong}</td>
               <td>
                 {parseInt(detail.ctdh_dongia).toLocaleString("VND", {

@@ -22,21 +22,39 @@ function CardProduct({ id, img, title, price, discount }) {
             {title}
           </CardTitle>
           <CardText>
-            <span>
-              {price ? productPriceNew.toLocaleString("VND", {
-                style: "currency",
-                currency: "VND",
-              }): "Đang cập nhật"}
+            {discount !== 0 ? (
+              <>
+                {" "}
+                <span>
+                  {price
+                    ? parseInt(productPriceNew).toLocaleString("VND", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : "Đang cập nhật"}
+                </span>
+                &nbsp;&nbsp;
+                <span className="text-decoration-line-through">
+                  {price
+                    ? parseInt(price).toLocaleString("VND", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : ""}
+                </span>
+              </>
+            ) : (
+              <span>
+              {price
+                ? parseInt(price).toLocaleString("VND", {
+                    style: "currency",
+                    currency: "VND",
+                  })
+                : "Đang cập nhật"}
             </span>
+            )}
             &nbsp;&nbsp;
-            <span className="text-decoration-line-through">
-              {price ? price.toLocaleString("VND", {
-                style: "currency",
-                currency: "VND",
-              }): ""}
-            </span>
-            &nbsp;&nbsp;
-            <span>{discount}%</span>
+            <span>{discount !== 0 ? `${discount}%` : ""}</span>
           </CardText>
         </CardBody>
       </Card>

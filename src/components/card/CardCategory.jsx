@@ -26,7 +26,7 @@ function CardCategory({ img, title }) {
   }
 
   return (
-    <NavLink to="#" className="text-white text-decoration-none">
+    <NavLink to={`/category/${title}`} className="text-white text-decoration-none">
       <Card
       className="card-item"
         style={{
