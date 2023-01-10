@@ -2,7 +2,7 @@ import * as request from "./request";
 
 export const get = async (id="") => {
   try {
-    const res = await request.get(`address?kh_id=${id}`);
+    const res = await request.get(`address?dc_id=${id}`);
     return res;
   } catch (error) {
     //todo write log

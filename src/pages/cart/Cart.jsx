@@ -24,7 +24,7 @@ function Cart() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const getAddress = await addressApi.get(kh_id);
+      const getAddress = await addressApi.getByCustomerId(kh_id);
       setAddress(getAddress.address);
       setAddressSelect(getAddress.address[0].dc_diachi);
     };

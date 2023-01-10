@@ -1,8 +1,8 @@
 import * as request from "./request";
 
-export const get = async (id = "") => {
+export const get = async (id = "", start="", limit="") => {
   try {
-    const res = await request.get(`products?sp_id=${id}`);
+    const res = await request.get(`products?sp_id=${id}&start=${start}&limit=${limit}`);
     return res;
   } catch (error) {
     //todo write log

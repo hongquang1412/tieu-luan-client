@@ -36,7 +36,7 @@ function Update() {
 
   return (
     <Col className="col-4">
-      <h2>Cập hật địa chỉ</h2>
+      <h2>Cập nhật địa chỉ</h2>
       <Row>
         <Col>
           <Form
@@ -52,7 +52,7 @@ function Update() {
                 placeholder="Nhập địa chỉ"
                 type="text"
                 required
-                defaultValue={add.dc_diachi}
+                defaultValue={add?.dc_diachi}
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}

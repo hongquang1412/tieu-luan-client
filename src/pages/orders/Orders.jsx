@@ -39,6 +39,7 @@ function Orders() {
             <th>Địa chỉ giao hàng</th>
             <th>Thành tiền</th>
             <th>trạng thái đơn</th>
+            <th>Ngày đặt hàng</th>
             <th>Thời gian giao hàng</th>
             <th></th>
           </tr>
@@ -55,6 +56,7 @@ function Orders() {
                 })}
               </td>
               <td>{order.dh_trangthai}</td>
+              <td>{moment(order.dh_ngaytao).format("DD-MM-YYYY")}</td>
               <td>
                 {order.dh_thoigiangh ? moment(order.dh_thoigiangh).format("DD-MM-YYYY") : "Đang cập nhật"}
               </td>
