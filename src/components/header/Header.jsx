@@ -66,7 +66,7 @@ function Header() {
               className="ms-4 fs-6 fw-semibold text-white text-decoration-none"
             >
 
-              <h2>Hồng Quang</h2>
+              <h2>HQ Store</h2>
             </NavLink>
           </Col>
 
